@@ -8,7 +8,7 @@ class Console(db.model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     company = db.Column(db.String(80))
-    portable = db.Column(db.Boolean)
+    portable = db.Column(db.Boolean, nullable=False)
     console_notes = db.Column(db.String(200))
 
     # The games - What games exist on this console?
