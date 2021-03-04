@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Game Tracker</h1>
+
+<p><em>Find out what other consoles and games other people have added!</em></p>
+
+<h2>All Consoles</h2>
+
+{% for console in all_consoles %}
+<div class="console">
+    <a href="/console/{{ console.id }}">{{ console.name }}</a> - 
+    {{ console.games|length }} games
+    <p><strong>Portable:</strong> {{ console.portable }}</p>
+    <p><strong>Notes:</strong> {{ console.console_notes }}</p>
+</div>
+{% endfor %}
+
+{% endblock %}

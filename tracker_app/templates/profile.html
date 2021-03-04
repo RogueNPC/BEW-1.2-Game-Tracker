@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<p>
+Welcome to {{ user.username }}'s profile.
+</p>
+
+<p>
+    {{ user.username }}'s console collection:
+
+    <ul>
+        {% for console in user.consoles_owned %}
+        <li><a href="/console/{{ console.id }}">{{ console.title }}</a></li>
+        {% endfor %}
+    </ul>
+</p>
+
+<p>
+    {{ user.username }}'s game collection:
+
+    <ul>
+        {% for game in user.games_owned %}
+        <li><a href="/game/{{ game.id }}">{{ game.title }}</a></li>
+        {% endfor %}
+    </ul>
+</p>
+
+{% endblock %}
