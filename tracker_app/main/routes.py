@@ -14,3 +14,10 @@ main = Blueprint("main", __name__)
 ##########################################
 #           Routes                       #
 ##########################################
+
+@main.route('/')
+def homepage():
+    all_consoles = Console.query.all()
+    print(all_consoles)
+    return render_template('home.html', all_consoles=all_consoles)
+
