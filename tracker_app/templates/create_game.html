@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>New Game</h1>
+
+<form method="POST" action="{{ url_for('main.new_game') }}">
+    {{ form.csrf_token }}
+    <fieldset>
+        <legend>Please enter your information:</legend>
+
+        {{ form.title.label }}
+        {{ form.title }}
+        <ul>
+            {% for error in form.title.errors %}
+              <li class="error">{{ error }}</li>
+            {% endfor %}
+        </ul>
+
+        {{ form.publisher.label }}
+        {{ form.publisher }}
+        <ul>
+            {% for error in form.publisher.errors %}
+              <li class="error">{{ error }}</li>
+            {% endfor %}
+        </ul>
+
+        {{ form.personal_rating.label }}
+        {{ form.personal_rating }}
+        <ul>
+            {% for error in form.personal_rating.errors %}
+              <li class="error">{{ error }}</li>
+            {% endfor %}
+        </ul>
+
+        {{ form.console.label }}
+        {{ form.console }}
+        <ul>
+            {% for error in form.console.errors %}
+              <li class="error">{{ error }}</li>
+            {% endfor %}
+        </ul>
+
+        {{ form.genres.label }}
+        {{ form.genres }}
+        <ul>
+            {% for error in form.genres.errors %}
+              <li class="error">{{ error }}</li>
+            {% endfor %}
+        </ul>
+
+        {{ form.game_notes.label }}
+        {{ form.game_notes }}
+        <ul>
+            {% for error in form.game_notes.errors %}
+              <li class="error">{{ error }}</li>
+            {% endfor %}
+        </ul>
+
+        <input type="submit" value="Submit">
+    </fieldset>
+</form>
+
+
+{% endblock %}

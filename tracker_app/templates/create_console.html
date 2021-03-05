@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>New Console</h1>
+
+<form method="POST" action="{{ url_for('main.new_console') }}">
+    {{ form.csrf_token }}
+    <fieldset>
+        <legend>Please enter your information:</legend>
+
+        {{ form.name.label }}
+        {{ form.name }}
+        <ul>
+            {% for error in form.name.errors %}
+              <li class="error">{{ error }}</li>
+            {% endfor %}
+        </ul>
+
+        {{ form.company.label }}
+        {{ form.company }}
+        <ul>
+            {% for error in form.company.errors %}
+              <li class="error">{{ error }}</li>
+            {% endfor %}
+        </ul>
+
+        {{ form.hidden_tag() }}
+        {{ form.portable }}
+        <ul>
+            {% for error in form.portable.errors %}
+                <li class="error">{{ error }}</li>
+            {% endfor %}
+        </ul>
+
+        {{ form.console_notes.label }}
+        {{ form.console_notes }}
+        <ul>
+            {% for error in form.console_notes.errors %}
+              <li class="error">{{ error }}</li>
+            {% endfor %}
+        </ul>
+
+        <input type="submit" value="Submit">
+    </fieldset>
+</form>
+
+
+{% endblock %}
