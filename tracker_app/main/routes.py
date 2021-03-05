@@ -85,6 +85,42 @@ def create_genre():
         db.session.commit()
 
         # Flash success message, redirect to homepage
-        flash('New genre created successfully.')
+        flash('New genre was added!')
         return redirect(url_for('main.homepage'))
     return render_template('create_genre.html', form=form)
+
+@main.route('/console/<console_id>', methods=['GET', 'POST'])
+@login_required
+def console_detail(console_id):
+    console = Console.query.get(console_id)
+    form = ConsoleForm(obj=console)
+
+    # If form was submitted and was valid:
+    if form.validate_on_submit():
+        # Populates the attributes of the passed obj with data from the form's fields
+        form.populate_obj(console)
+        db.session.add(console)
+        db.session.commit()
+
+        flash('Console was edited!')
+        return redirect(url_for('main.console_detail', console_id=console.id))
+    console = Console.query.get(console_id)
+    return render_template('console_detail.html', console=console, form=form)
+
+@main.route('/game/<game_id>', methods=['GET', 'POST'])
+@login_required
+def game_detail(game_id):
+    game = Game.query.get(game_id)
+    form = GameForm(obj=game)
+
+    # If form was submitted and was valid:
+    if form.validate_on_submit():
+        # Populates the attributes of the passed obj with data from the form's fields
+        form.populate_obj(game)
+        db.session.add(game)
+        db.session.commit()
+
+        flash('Game was edited!')
+        return redirect(url_for('main.game_detail', game_id=game.id))
+    game = Game.query.get(game_id)
+    return render_template('game_detail.html', game=game, form=form)
