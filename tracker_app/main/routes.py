@@ -124,3 +124,60 @@ def game_detail(game_id):
         return redirect(url_for('main.game_detail', game_id=game.id))
     game = Game.query.get(game_id)
     return render_template('game_detail.html', game=game, form=form)
+
+@main.route('/profile')
+@login_required
+def profile():
+    return render_template('profile.html')
+
+@main.route('/add_collection_console/<console_id>', methods=['POST'])
+@login_required
+def add_collection_console(console_id):
+    console = Console.query.get(console_id)
+    if console in current_user.consoles_owned:
+        flash('Console already in collection.')
+    else:
+        current_user.consoles_owned.append(console)
+        db.session.add(current_user)
+        db.session.commit()
+        flash('Console added to collection!')
+    return redirect(url_for('main.console_detail', console_id=console_id))
+
+@main.route('/remove_collection_console/<console_id>', methods=['POST'])
+@login_required
+def remove_collection_console(console_id):
+    console = Console.query.get(console_id)
+    if console not in current_user.consoles_owned:
+        flash('Console not in collection.')
+    else:
+        current_user.consoles_owned.remove(console)
+        db.session.add(current_user)
+        db.session.commit()
+        flash('Console removed from collection!')
+    return redirect(url_for('main.console_detail', console_id=console_id))
+
+@main.route('/add_collection_game/<game_id>', methods=['POST'])
+@login_required
+def add_collection_game(game_id):
+    game = Game.query.get(game_id)
+    if game in current_user.games_owned:
+        flash('Game already in collection.')
+    else:
+        current_user.games_owned.append(game)
+        db.session.add(current_user)
+        db.session.commit()
+        flash('Game added to collection!')
+    return redirect(url_for('main.game_detail', game_id=game_id))
+
+@main.route('/remove_collection_game/<game_id>', methods=['POST'])
+@login_required
+def remove_collection_game(game_id):
+    game = Game.query.get(game_id)
+    if game not in current_user.games_owned:
+        flash('Game not in collection.')
+    else:
+        current_user.games_owned.remove(game)
+        db.session.add(current_user)
+        db.session.commit()
+        flash('Game removed from collection!')
+    return redirect(url_for('main.game_detail', game_id=game_id))
