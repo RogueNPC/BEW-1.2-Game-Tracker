@@ -5,6 +5,7 @@ from tracker_app.models import User
 from tracker_app import bcrypt
 
 class SignUpForm(FlaskForm):
+    """Form to sign up."""
     username = StringField('User Name',
         validators=[DataRequired(), Length(min=3, max=50)])
     password = PasswordField('Password', validators=[DataRequired()])
@@ -17,6 +18,7 @@ class SignUpForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
+    """Form to login."""
     username = StringField('User Name',
         validators=[DataRequired(), Length(min=3, max=50)])
     password = PasswordField('Password', validators=[DataRequired()])
