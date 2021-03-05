@@ -1,5 +1,52 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, DateField, SelectField, SubmitField, TextAreaField
+from wtforms import StringField, PasswordField, SelectField, SubmitField, TextAreaField, BooleanField, IntegerField
 from wtforms.ext.sqlalchemy.fields import QuerySelectField, QuerySelectMultipleField
 from wtforms.validators import DataRequired, Length, ValidationError
 from tracker_app.models import Console, Game, Genre, User
+
+class ConsoleForm(FlaskForm):
+    """Form to create a console."""
+    name = StringField('Console Name',
+        validators=[DataRequired(), Length(min=3, max=80)])
+    company = StringField('Company')
+    portable = BooleanField('Portable?', validators=[DataRequired()])
+    console_notes = TextAreaField('Notes')
+    submit = SubmitField('Submit')
+
+class GameForm(FlaskForm):
+    """Form to create a game."""
+    title = StringField('Game Title',
+        validators=[DataRequired(), Length(min=3, max=80)])
+    publisher = StringField('Publisher')
+    personal_rating = IntegerField('Rating')
+    console = QuerySelectField('Console', 
+        query_factory=lambda: Console.query, allow_blank=False)
+    genres = QuerySelectMultipleField('Genres',
+        query_factory=lambda: Genre.query)
+    game_notes = TextAreaField('Notes')
+    submit = SubmitField('Submit')
+
+class GenreForm(FlaskForm):
+    """Form to create a genre."""
+    name = StringField('Genre Name',
+        validators=[DataRequired(), Length(min=3, max=80)])
+    submit = SubmitField('Submit')
+
+class SignUpForm(FlaskForm):
+    """Form to sign up."""
+    username = StringField('User Name',
+        validators=[DataRequired(), Length(min=3, max=50)])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Sign Up')
+
+    def validate_username(self, username):
+        user = User.query.filter_by(username=username.data).first()
+        if user:
+            raise ValidationError('That username is taken. Please choose a different one.')
+
+class LoginForm(FlaskForm):
+    """Form to login."""
+    username = StringField('User Name',
+        validators=[DataRequired(), Length(min=3, max=50)])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Log In')
