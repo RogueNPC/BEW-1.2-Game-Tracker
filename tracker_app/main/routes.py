@@ -68,3 +68,23 @@ def new_game():
         flash('New game was added!')
         return redircet(url_for('main.game_detail', game_id=new_game.id))
     return render_template('new_game.html', form=form)
+
+@main.route('/create_genre', methods=['GET', 'POST'])
+@login_required
+def create_genre():
+    # Creates a GenreForm
+    form = GenreForm()
+
+    # If form was submitted and was valid:
+    if form.validate_on_submit():
+        new_genre = Genre(
+            name=form.name.data
+        )
+        # Add genre to database
+        db.session.add(new_genre)
+        db.session.commit()
+
+        # Flash success message, redirect to homepage
+        flash('New genre created successfully.')
+        return redirect(url_for('main.homepage'))
+    return render_template('create_genre.html', form=form)
