@@ -3,7 +3,7 @@ from tracker_app import db
 from sqlalchemy.orm import backref
 from flask_login import UserMixin
 
-class Console(db.model):
+class Console(db.Model):
     """Console model."""
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
@@ -17,7 +17,7 @@ class Console(db.model):
     # Who owns this console?
     users_who_own = db.relationship('User', secondary='user_console', back_populates='consoles_owned')
 
-class Game(db.model):
+class Game(db.Model):
     """Game model."""
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), nullable=False)
@@ -35,7 +35,7 @@ class Game(db.model):
     # Who owns this game?
     users_who_own = db.relationship('User', secondary='user_game', back_populates='games_owned')
 
-class Genre(db.model):
+class Genre(db.Model):
     """Genre model."""
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False, unique=True)

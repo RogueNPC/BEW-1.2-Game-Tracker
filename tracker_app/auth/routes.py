@@ -6,7 +6,7 @@ from tracker_app.auth.forms import SignUpForm, LoginForm
 from tracker_app import bcrypt
 
 # Import app and db from events_app package so that we can run app
-from books_app import app, db
+from tracker_app import app, db
 
 auth = Blueprint("auth", __name__)
 
