@@ -17,6 +17,12 @@ class Console(db.Model):
     # Who owns this console?
     users_who_own = db.relationship('User', secondary='user_console', back_populates='consoles_owned')
 
+    def __str__(self):
+        return f'<Console: {self.name}>'
+
+    def __repr__(self):
+        return f'<Console: {self.name}>'
+
 class Game(db.Model):
     """Game model."""
     id = db.Column(db.Integer, primary_key=True)
@@ -35,6 +41,12 @@ class Game(db.Model):
     # Who owns this game?
     users_who_own = db.relationship('User', secondary='user_game', back_populates='games_owned')
 
+    def __str__(self):
+        return f'<Game: {self.name}>'
+
+    def __repr__(self):
+        return f'<Game: {self.name}>'
+
 class Genre(db.Model):
     """Genre model."""
     id = db.Column(db.Integer, primary_key=True)
@@ -42,6 +54,12 @@ class Genre(db.Model):
 
     # The games - what games have these genres?
     games = db.relationship('Game', secondary='game_genre', back_populates='genres')
+
+    def __str__(self):
+        return f'<Genre: {self.name}>'
+
+    def __repr__(self):
+        return f'<Genre: {self.name}>'
 
 # Game <--> Genre table
 game_genre_table = db.Table('game_genre',

@@ -9,7 +9,7 @@ class ConsoleForm(FlaskForm):
     name = StringField('Console Name',
         validators=[DataRequired(), Length(min=3, max=80)])
     company = StringField('Company')
-    portable = BooleanField('Portable?', validators=[DataRequired()])
+    portable = BooleanField('Portable?')
     console_notes = TextAreaField('Notes')
     submit = SubmitField('Submit')
 

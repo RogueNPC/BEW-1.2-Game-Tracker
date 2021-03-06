@@ -42,7 +42,7 @@ def new_console():
         # Flash success message, redirect to detail page
         flash('New console was added!')
         return redirect(url_for('main.console_detail', console_id=new_console.id))
-    return render_template('new_console.html', form=form)
+    return render_template('create_console.html', form=form)
 
 @main.route('/new_game', methods=['GET', 'POST'])
 @login_required
@@ -58,7 +58,7 @@ def new_game():
             personal_rating=form.personal_rating.data,
             game_notes=form.game_notes.data,
             console=form.console.data,
-            genres=form.genres.database
+            genres=form.genres.data
         )
         # Add game to database
         db.session.add(new_game)
@@ -66,10 +66,10 @@ def new_game():
 
         # Flash success message, redirect to detail page
         flash('New game was added!')
-        return redircet(url_for('main.game_detail', game_id=new_game.id))
-    return render_template('new_game.html', form=form)
+        return redirect(url_for('main.game_detail', game_id=new_game.id))
+    return render_template('create_game.html', form=form)
 
-@main.route('/create_genre', methods=['GET', 'POST'])
+@main.route('/new_genre', methods=['GET', 'POST'])
 @login_required
 def create_genre():
     # Creates a GenreForm
