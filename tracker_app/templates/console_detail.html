@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{ console.name }}</h1>
+
+{% if current_user.is_authenticated %}
+    {% if console not in current_user.consoles_owned %}
+    <form action="/add_collection_console/{{ console.id }}" method="POST">
+        <input type="submit" value="Add To Collection">
+    </form>
+    {% else %}
+    <form action="/remove_collection_console/{{ console.id }}" method="POST">
+        <input type="submit" value="Remove From Collection">
+    </form>
+    {% endif %}
+{% endif %}
+
+{% if console.company %}
+<p>
+    <strong>Company</strong>: {{ console.company }}
+</p>
+{% endif %}
+
+<p>
+    <strong>Portable</strong>: {{ console.portable }}
+</p>
+
+{% if console.console_notes %}
+<p>
+    <strong>Notes</strong>: {{ console.console_notes }}
+</p>
+{% endif %}
+
+<p>
+    <strong>Games</strong>: 
+    
+    {% for game in console.games %}
+        {{ game.title }},
+    {% endfor %}
+</p>
+
+
+<h2>Edit Console</h2>
+
+<form method="POST" action="{{ url_for('main.console_detail', console_id=console.id) }}">
+    {{ form.csrf_token }}
+    <fieldset>
+        <legend>Please enter your information:</legend>
+
+        {{ form.name.label }}
+        {{ form.name }}
+        <ul>
+            {% for error in form.name.errors %}
+              <li class="error">{{ error }}</li>
+            {% endfor %}
+        </ul>
+
+        {{ form.company.label }}
+        {{ form.company }}
+        <ul>
+            {% for error in form.company.errors %}
+              <li class="error">{{ error }}</li>
+            {% endfor %}
+        </ul>
+
+        {{ form.hidden_tag() }}
+        {{ form.portable }}
+        <ul>
+            {% for error in form.portable.errors %}
+                <li class="error">{{ error }}</li>
+            {% endfor %}
+        </ul>
+
+        {{ form.console_notes.label }}
+        {{ form.console_notes }}
+        <ul>
+            {% for error in form.console_notes.errors %}
+              <li class="error">{{ error }}</li>
+            {% endfor %}
+        </ul>
+
+        <input type="submit" value="Submit">
+    </fieldset>
+</form>
+
+{% endblock %}

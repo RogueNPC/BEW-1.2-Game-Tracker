@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{ game.title }}</h1>
+
+{% if current_user.is_authenticated %}
+    {% if console not in current_user.games_owned %}
+    <form action="/add_collection_game/{{ game.id }}" method="POST">
+        <input type="submit" value="Add To Collection">
+    </form>
+    {% else %}
+    <form action="/remove_collection_game/{{ game.id }}" method="POST">
+        <input type="submit" value="Remove From Collection">
+    </form>
+    {% endif %}
+{% endif %}
+
+{% if game.publisher %}
+<p>
+    <strong>Publisher</strong>: {{ game.publisher }}
+</p>
+{% endif %}
+
+{% if game.personal_rating %}
+<p>
+    <strong>Personal Rating</strong>: {{ game.personal_rating }}
+</p>
+{% endif %}
+
+<p>
+    <strong>Console</strong>: {{ game.console.name }}
+</p>
+
+{% if game.game_notes %}
+<p>
+    <strong>Notes</strong>: {{ game.game_notes }}
+</p>
+{% endif %}
+
+<p>
+    <strong>Games</strong>: 
+    
+    {% for genre in game.genres %}
+        {{ genre.name }},
+    {% endfor %}
+</p>
+
+
+<h2>Edit Game</h2>
+
+<form method="POST" action="{{ url_for('main.new_game') }}">
+    {{ form.csrf_token }}
+    <fieldset>
+        <legend>Please enter your information:</legend>
+
+        {{ form.title.label }}
+        {{ form.title }}
+        <ul>
+            {% for error in form.title.errors %}
+              <li class="error">{{ error }}</li>
+            {% endfor %}
+        </ul>
+
+        {{ form.publisher.label }}
+        {{ form.publisher }}
+        <ul>
+            {% for error in form.publisher.errors %}
+              <li class="error">{{ error }}</li>
+            {% endfor %}
+        </ul>
+
+        {{ form.personal_rating.label }}
+        {{ form.personal_rating }}
+        <ul>
+            {% for error in form.personal_rating.errors %}
+              <li class="error">{{ error }}</li>
+            {% endfor %}
+        </ul>
+
+        {{ form.console.label }}
+        {{ form.console }}
+        <ul>
+            {% for error in form.console.errors %}
+              <li class="error">{{ error }}</li>
+            {% endfor %}
+        </ul>
+
+        {{ form.genres.label }}
+        {{ form.genres }}
+        <ul>
+            {% for error in form.genres.errors %}
+              <li class="error">{{ error }}</li>
+            {% endfor %}
+        </ul>
+
+        {{ form.game_notes.label }}
+        {{ form.game_notes }}
+        <ul>
+            {% for error in form.game_notes.errors %}
+              <li class="error">{{ error }}</li>
+            {% endfor %}
+        </ul>
+
+        <input type="submit" value="Submit">
+    </fieldset>
+</form>
+
+{% endblock %}
