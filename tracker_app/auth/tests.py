@@ -1,7 +1,5 @@
 import os
 from unittest import TestCase
-
-from datetime import date
  
 from tracker_app import app, db, bcrypt
 from tracker_app.models import Console, Game, User
